@@ -1,0 +1,14 @@
+{
+    "name": "Cinema",
+    "alias": "cinema",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Cinema\\Providers\\CinemaServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
