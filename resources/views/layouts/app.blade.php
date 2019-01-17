@@ -50,7 +50,7 @@
                             @endif
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ URL::route('user') }}">{{ __('user') }}</a>
+                                <a class="nav-link" href="{{ URL::route('dashboard') }}">{{ __('dashboard') }}</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ URL::route('movies') }}">{{ __('movies') }}</a>

@@ -11,12 +11,10 @@ class Movie extends Model
     protected $fillable = ['slug','user_id','title','release_date','genre','duration','language','description'];
 
     public function  User(){
-        return $this->belongsTo('Modules\User\Entities\User');
+        return $this->belongsTo('App\User');
     }
 
     public function  Showtime(){
         return $this->hasMany('Modules\Showtime\Entities\Showtime');
     }
-
-
 }
