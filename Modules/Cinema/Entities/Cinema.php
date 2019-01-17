@@ -10,6 +10,10 @@ class Cinema extends Model
     protected $fillable = ['slug','user_id','name','location'];
 
     public function  User(){
-        return $this->belongsTo('Modules\User\Entities\User');
+        return $this->belongsTo('App\User');
+    }
+
+    public function  Showtime(){
+        return $this->hasMany()('Modules\Showtime\Entities\Showtime');
     }
 }

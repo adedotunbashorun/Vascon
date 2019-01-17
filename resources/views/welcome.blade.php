@@ -7,68 +7,19 @@
         <title>Laravel</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet" type="text/css">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
-            }
-
-            .full-height {
-                height: 100vh;
-            }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+        <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css'>
+        <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/icon?family=Material+Icons'>
+        <link href="{{ asset('css/movie.css') }}" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="flex-center position-ref">
             @if (Route::has('login'))
                 <div class="top-right links">
                     @auth
-                        <a href="{{ url('/home') }}">Home</a>
+                        <a href="{{ url('/dashboard') }}">Dashbord</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
@@ -78,22 +29,44 @@
                     @endauth
                 </div>
             @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
         </div>
+            <div class="container movie-list">
+                <center><h1 style="border-bottom: 5px solid #b2b2b2">Vascon Movie Showing At Different Cinema</h1></center>
+                <div class="row text-center">
+                    @forelse($movies as $movie)
+                    @foreach ($movie->Showtime as $key => $showtime)
+                        <div class="card">
+                            <img class="img-logo" src="http://cdn.collider.com/wp-content/uploads/2017/05/blade-runner-2049-poster-ryan-gosling.jpeg"  alt="Logo"/>
+                            <div class="description">
+                                <h4 class="movie-title">{{ $movie->title }}</h4>
+                                <div class="movie-date">
+                                    <i class="fa fa-clock-o"></i>{{ $movie->duration }}
+                                </div>
+                                <p class="movie_showtime"><b>Showtime:</b> <span><strong>{{ date('D d M y',strtotime($showtime->date)) }} </strong></span><strong>{{ date('h:i a',strtotime($showtime->time)) }}</strong></p>
+                                <div class="movie-releasedate">
+                                    <div>
+                                        <label>Release:</label> {{ date('D d M y',strtotime($movie->release_date)) }}
+                                    </div>
+                                    <div>
+                                        <label>Genre:</label> {{ $movie->genre }}
+                                    </div>
+                                    <div><label>Language:</label> {{ $movie->language }} </div>
+                                </div>
+                                <div class="">
+                                    <h4 class="movie-title">Showing At </h4>
+                                    <center>
+                                        {{ $showtime->Cinema->name }}
+                                        <p>{{ $showtime->Cinema->location }}</p>
+                                    </center>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    @empty
+                    @endforelse
+                </div>
+
+            </div>
+
     </body>
 </html>

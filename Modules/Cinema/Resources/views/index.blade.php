@@ -25,7 +25,7 @@
                                     <th>Added By</th>
                                     <th>Name</th>
                                     <th>Location</th>
-                                    <th>Date</th>
+                                    <th>Created</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -35,7 +35,7 @@
                                 @forelse($cinemas as $cinema)
                                     <tr>
                                         <td>{{ $counter++}}</td>
-                                        <td>{{ strtoupper($cinema->User->name) }}</td>
+                                        <td>{{ $cinema->User->name }}</td>
                                         <td>{{ $cinema->name}} </td>
                                         <td>{{ $cinema->location }}</td>
                                         <td>{{ $cinema->created_at->diffForHumans()}}</td>

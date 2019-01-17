@@ -10,7 +10,7 @@ class Showtime extends Model
     protected $fillable = ['user_id','slug','movie_id','cinema_id','date','time'];
 
     public function  User(){
-        return $this->belongsTo('Modules\User\Entities\User');
+        return $this->belongsTo('App\User');
     }
 
     public function  Movies(){

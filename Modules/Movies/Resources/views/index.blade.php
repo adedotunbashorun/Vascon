@@ -26,7 +26,7 @@
                                     <th>Title</th>
                                     <th>Genre</th>
                                     <th>Release Date</th>
-                                    <th>Date</th>
+                                    <th>Created</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -36,10 +36,10 @@
                                 @forelse($movies as $movie)
                                     <tr>
                                         <td>{{ $counter++}}</td>
-                                        <td>{{ strtoupper($movie->User->name) }}</td>
+                                        <td>{{ $movie->User->name }}</td>
                                         <td>{{ $movie->title}} </td>
                                         <td>{{ $movie->genre }}</td>
-                                        <td>{{ $movie->release_date }}</td>
+                                        <td>{{ date('D d M y',strtotime($movie->release_date)) }}</td>
                                         <td>{{ $movie->created_at->diffForHumans()}}</td>
                                         <td>
                                             <div class="btn-group">

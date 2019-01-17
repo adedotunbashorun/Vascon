@@ -36,7 +36,7 @@
                                 @forelse($showtimes as $showtime)
                                     <tr>
                                         <td>{{ $counter++}}</td>
-                                        <td>{{ strtoupper($showtime->User->name) }}</td>
+                                        <td>{{ $showtime->User->name }}</td>
                                         <td>{{ $showtime->Movies->title }} </td>
                                         <td>{{ $showtime->Cinema->name }}</td>
                                         <td>{{ date('D d M y - h:ia', strtotime($showtime->date .' '. $showtime->time)) }}</td>
