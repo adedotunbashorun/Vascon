@@ -23,7 +23,7 @@ class CreateMoviesTable extends Migration
             $table->string('genre')->nullable();
             $table->string('duration')->nullable();
             $table->string('language')->nullable();
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('image_name')->nullable();
             $table->string('image_url')->nullable();
             $table->timestamps();
