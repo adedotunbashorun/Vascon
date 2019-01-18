@@ -63,14 +63,23 @@ class CinemaController extends Controller
                 'type' => 'false'
             ];
         }
-
-        // create record and pass in only fields that are fillable
-        $cinema = $this->model->create($request->only($this->model->getModel()->fillable));
-        if($cinema)
+        \DB::beginTransaction();
+        try {
+            // create record and pass in only fields that are fillable
+            $cinema = $this->model->create($request->only($this->model->getModel()->fillable));
+            if($cinema)
+                \DB::commit();
+                return response()->json([
+                    'msg'   => "Cinema Added Successful!",
+                    'type'  => "true"
+                ],200);
+        } catch(Exception $e) {
+            \DB::rollback();
             return response()->json([
-                'msg'   => "Cinema Added Successful!",
-                'type'  => "true"
-            ],200);
+                'msg'   => $e->getMessage(),
+                'type'  => "false"
+            ],401);
+        }
     }
 
     /**
@@ -103,14 +112,24 @@ class CinemaController extends Controller
      */
     public function update(Request $request)
     {
-        // update model and only pass in the fillable fields
-       $this->model->update($request->only($this->model->getModel()->fillable), $request->id);
-       $cinema = $this->model->show($request->id);
-       if($cinema)
+        \DB::beginTransaction();
+        try {
+            // update model and only pass in the fillable fields
+            $this->model->update($request->only($this->model->getModel()->fillable), $request->id);
+            $cinema = $this->model->show($request->id);
+            \DB::commit();
+            if($cinema)
+                    return response()->json([
+                        'msg'   => "CInema Updated Successful!",
+                        'type'  => "true"
+                    ],200);
+        } catch(Exception $e) {
+            \DB::rollback();
             return response()->json([
-                'msg'   => "CInema Updated Successful!",
-                'type'  => "true"
-            ],200);
+                'msg'   => $e->getMessage(),
+                'type'  => "false"
+            ],401);
+        }
     }
 
     /**
@@ -119,10 +138,21 @@ class CinemaController extends Controller
      */
     public function destroy($id)
     {
-        $this->model->delete($id);
-        return response()->json([
-            'msg'   => "Cinema Deleted Successful!",
-            'type'  => "true"
-        ],200);
+        \DB::beginTransaction();
+        try {
+            $this->model->delete($id);
+            \DB::commit();
+            return response()->json([
+                'msg'   => "Cinema Deleted Successful!",
+                'type'  => "true"
+            ],200);
+
+        } catch(Exception $e) {
+            \DB::rollback();
+            return response()->json([
+                'msg'   => $e->getMessage(),
+                'type'  => "false"
+            ],401);
+        }
     }
 }

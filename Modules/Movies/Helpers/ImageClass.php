@@ -20,8 +20,6 @@ class ImageClass
 
             return $image_url;
         }
-        return null;
-
 
     }
 

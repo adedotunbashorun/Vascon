@@ -69,22 +69,31 @@ class ShowtimeController extends Controller
         }
 
         $data = $request->all();
-
-        foreach($data['movie_id'] as $key => $input) {
-            // create record and pass in only fields that are fillable
-            $this->model->create([
-                'movie_id' => $data['movie_id'][$key], //add a default value here
-                'cinema_id' => $data['cinema_id'][$key],
-                'user_id' => $data['user_id'],
-                'slug' => bin2hex(random_bytes(64)),
-                'date' => $data['date'],
-                'time' => $data['time']
-            ]);
+        \DB::beginTransaction();
+        try {
+            foreach($data['movie_id'] as $key => $input) {
+                // create record and pass in only fields that are fillable
+                $this->model->create([
+                    'movie_id' => $data['movie_id'][$key], //add a default value here
+                    'cinema_id' => $data['cinema_id'][$key],
+                    'user_id' => $data['user_id'],
+                    'slug' => bin2hex(random_bytes(64)),
+                    'date' => $data['date'],
+                    'time' => $data['time']
+                ]);
+            }
+            \DB::commit();
+            return response()->json([
+                'msg'   => "Showtime Added Successful!",
+                'type'  => "true"
+            ],200);
+        } catch(Exception $e) {
+            \DB::rollback();
+            return response()->json([
+                'msg'   => $e->getMessage(),
+                'type'  => "false"
+            ],401);
         }
-        return response()->json([
-            'msg'   => "Showtime Added Successful!",
-            'type'  => "true"
-        ],200);
     }
 
     /**
@@ -119,14 +128,24 @@ class ShowtimeController extends Controller
      */
     public function update(Request $request)
     {
-        // update model and only pass in the fillable fields
-       $this->model->update($request->only($this->model->getModel()->fillable), $request->id);
-       $showtime = $this->model->show($request->id);
-       if($showtime)
+        \DB::beginTransaction();
+        try {
+            // update model and only pass in the fillable fields
+            $this->model->update($request->only($this->model->getModel()->fillable), $request->id);
+            $showtime = $this->model->show($request->id);
+            \DB::commit();
+            if($showtime)
+                return response()->json([
+                    'msg'   => "Showtime Updated Successful!",
+                    'type'  => "true"
+                ],200);
+        } catch(Exception $e) {
+            \DB::rollback();
             return response()->json([
-                'msg'   => "Showtime Updated Successful!",
-                'type'  => "true"
-            ],200);
+                'msg'   => $e->getMessage(),
+                'type'  => "false"
+            ],401);
+        }
     }
 
     /**
@@ -135,10 +154,21 @@ class ShowtimeController extends Controller
      */
     public function destroy($id)
     {
-        $this->model->delete($id);
-        return response()->json([
-            'msg'   => "Showtime Deleted Successful!",
-            'type'  => "true"
-        ],200);
+        \DB::beginTransaction();
+        try {
+            $this->model->delete($id);
+            \DB::commit();
+            return response()->json([
+                'msg'   => "Showtime Deleted Successful!",
+                'type'  => "true"
+            ],200);
+
+        } catch(Exception $e) {
+            \DB::rollback();
+            return response()->json([
+                'msg'   => $e->getMessage(),
+                'type'  => "false"
+            ],401);
+        }
     }
 }
