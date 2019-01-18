@@ -67,22 +67,33 @@ class MoviesController extends Controller
                 'type' => 'false'
             ];
         }
-        $image_url = $this->imageupload->image_upload($request->file('image'));
-        // create record and pass in only fields that are fillable
-        $movie = $this->model->create($request->only($this->model->getModel()->fillable));
+        \DB::beginTransaction();
+        try {
+            $image_url = $this->imageupload->image_upload($request->file('image'));
+            // create record and pass in only fields that are fillable
+            $movie = $this->model->create($request->only($this->model->getModel()->fillable));
+            if($movie)
+                $this->saveImages($movie->id,$request->file('image'),$image_url);
 
-        $this->saveImages($movie,$request->file('image'),$image_url);
-
-        if($movie)
+            \DB::commit();
             return response()->json([
-                'msg'   => "Movie Added Successful!",
+                'msg'   => "Movie Added Successfull!",
                 'type'  => "true"
             ],200);
+
+        } catch(Exception $e) {
+            \DB::rollback();
+            return response()->json([
+                'msg'   => $e->getMessage(),
+                'type'  => "false"
+            ],401);
+        }
+
     }
 
     protected function saveImages($movie,$image_name ,$image_url)
     {
-        $image = Movie::find($movie->id);
+        $image = Movie::find($movie);
         $image->image_name = $image_name->getClientOriginalName();
         $image->image_url = $image_url;
         $image->save();
@@ -118,14 +129,25 @@ class MoviesController extends Controller
      */
     public function update(Request $request)
     {
+        \DB::beginTransaction();
+        try {
         // update model and only pass in the fillable fields
-       $this->model->update($request->only($this->model->getModel()->fillable), $request->id);
-       $movie = $this->model->show($request->id);
-       if($movie)
+            $this->model->update($request->only($this->model->getModel()->fillable), $request->id);
+            $movie = $this->model->show($request->id);
+            if($movie)
+            \DB::commit();
+                return response()->json([
+                    'msg'   => "Movie Updated Successful!",
+                    'type'  => "true"
+                ],200);
+        } catch(Exception $e) {
+            \DB::rollback();
             return response()->json([
-                'msg'   => "Movie Updated Successful!",
-                'type'  => "true"
-            ],200);
+                'msg'   => $e->getMessage(),
+                'type'  => "false"
+            ],401);
+        }
+
     }
 
     /**
@@ -134,10 +156,20 @@ class MoviesController extends Controller
      */
     public function destroy($id)
     {
-        $this->model->delete($id);
-        return response()->json([
-            'msg'   => "Movie Deleted Successful!",
-            'type'  => "true"
-        ],200);
+        \DB::beginTransaction();
+        try {
+            $this->model->delete($id);
+            \DB::commit();
+            return response()->json([
+                'msg'   => "Movie Deleted Successful!",
+                'type'  => "true"
+            ],200);
+        } catch(Exception $e) {
+            \DB::rollback();
+            return response()->json([
+                'msg'   => $e->getMessage(),
+                'type'  => "false"
+            ],401);
+        }
     }
 }
