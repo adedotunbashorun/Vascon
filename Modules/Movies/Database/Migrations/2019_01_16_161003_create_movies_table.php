@@ -24,6 +24,8 @@ class CreateMoviesTable extends Migration
             $table->string('duration')->nullable();
             $table->string('language')->nullable();
             $table->string('description')->nullable();
+            $table->string('image_name')->nullable();
+            $table->string('image_url')->nullable();
             $table->timestamps();
         });
     }

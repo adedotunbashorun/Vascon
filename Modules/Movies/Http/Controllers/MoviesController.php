@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Movies\Entities\Movie;
 use Modules\Movies\Repository\MovieRepository;
+use Modules\Movies\Helpers\ImageClass;
 use Validator;
 
 class MoviesController extends Controller
@@ -15,12 +16,13 @@ class MoviesController extends Controller
      * Display a listing of the resource.
      * @return Response
      */
-    protected $model;
+    protected $model,$imageupload;
 
-    public function __construct(Movie $movie)
+    public function __construct(Movie $movie,ImageClass $imageupload)
     {
         $this->middleware(['auth']);
         // set the model
+        $this->imageupload = $imageupload;
         $this->model = new MovieRepository($movie);
     }
 
@@ -46,7 +48,8 @@ class MoviesController extends Controller
             'slug' => ['required', 'string', 'unique:movies'],
             'title' => ['required', 'string', 'max:255'],
             'release_date' => ['required'],
-            'genre' => ['required']
+            'genre' => ['required'],
+            'image_name' => ['required|mimes:jpeg,bmp,jpg,png|between:1, 6000'],
 		]);
     }
 
@@ -64,14 +67,25 @@ class MoviesController extends Controller
                 'type' => 'false'
             ];
         }
-
+        $image_url = $this->imageupload->image_upload($request->file('image'));
         // create record and pass in only fields that are fillable
         $movie = $this->model->create($request->only($this->model->getModel()->fillable));
+
+        $this->saveImages($movie,$request->file('image'),$image_url);
+
         if($movie)
             return response()->json([
                 'msg'   => "Movie Added Successful!",
                 'type'  => "true"
             ],200);
+    }
+
+    protected function saveImages($movie,$image_name ,$image_url)
+    {
+        $image = Movie::find($movie->id);
+        $image->image_name = $image_name->getClientOriginalName();
+        $image->image_url = $image_url;
+        $image->save();
     }
 
     /**

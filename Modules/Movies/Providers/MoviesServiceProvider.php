@@ -91,7 +91,7 @@ class MoviesServiceProvider extends ServiceProvider
 
     /**
      * Register an additional directory of factories.
-     * 
+     *
      * @return void
      */
     public function registerFactories()
@@ -108,6 +108,8 @@ class MoviesServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [];
+        return [
+            'JD\Cloudder\CloudderServiceProvider'
+        ];
     }
 }

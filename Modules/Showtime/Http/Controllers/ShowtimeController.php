@@ -67,7 +67,9 @@ class ShowtimeController extends Controller
                 'type' => 'false'
             ];
         }
+
         $data = $request->all();
+
         foreach($data['movie_id'] as $key => $input) {
             // create record and pass in only fields that are fillable
             $this->model->create([

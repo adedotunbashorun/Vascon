@@ -1,8 +1,9 @@
+@import url("https://fonts.googleapis.com/css?family=Lato:400");
 html,
 body {
     background-color: #fff;
     color: #636b6f;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'sans-serif', 'Nunito', 'Lato';
     font-weight: 200;
     /* height: 100vh; */
     /* margin: 0; */
@@ -50,6 +51,10 @@ body {
     margin-bottom: 30px;
 }
 
+.contain {
+    width: 100%;
+}
+
 
 /* movies css */
 
@@ -70,12 +75,18 @@ body {
 .card {
     background: #E6E7E9 none repeat scroll 0 0;
     box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
-    width: 100%;
     text-align: left;
-    max-width: 35em;
+    width: 500px;
+    max-height: 400px;
     margin: 2em;
     border-radius: 10px;
     display: inline-block;
+}
+
+center .header {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 center {
@@ -109,7 +120,13 @@ img {
 
 .movie_showtime {
     color: #bd622b;
-    font-weight: bolder;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.cinema {
+    text-transform: uppercase;
+    color: #bd622b;
 }
 
 .movie_showtime>span {
@@ -129,7 +146,6 @@ p {
 .desciption {
     padding: 15px 15px 0;
     display: inline-block;
-    float: left;
 }
 
 img:hover {
