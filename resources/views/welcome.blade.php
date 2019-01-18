@@ -29,13 +29,13 @@
                     @endauth
                 </div>
             @endif
-            <div class="contain movie-list">
-                <center><h1 style="border-bottom: 5px solid #b2b2b2">Vascon Movie Showing At Different Cinema</h1></center>
+            <div class="container movie-list">
+                <center class="header"><h1 style="border-bottom: 5px solid #b2b2b2;">Vascon Movie Showing At Different Cinema</h1></center>
                 <div class="row text-center">
                     @forelse($movies as $movie)
                     @foreach ($movie->Showtime as $key => $showtime)
                         <div class="card">
-                            <img class="img-logo" src="http://cdn.collider.com/wp-content/uploads/2017/05/blade-runner-2049-poster-ryan-gosling.jpeg"  alt="Logo"/>
+                            <img class="img-logo" src="{{ $movie->image_url }}"  alt="Logo"/>
                             <div class="description">
                                 <h4 class="movie-title">{{ $movie->title }}</h4>
                                 <div class="movie-date">

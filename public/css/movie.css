@@ -52,7 +52,7 @@ body {
 }
 
 .contain {
-    width: 90%;
+    width: 100%;
 }
 
 
@@ -75,12 +75,18 @@ body {
 .card {
     background: #E6E7E9 none repeat scroll 0 0;
     box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.1);
-    width: 100%;
     text-align: left;
-    max-width: 40em;
+    width: 500px;
+    max-height: 400px;
     margin: 2em;
     border-radius: 10px;
     display: inline-block;
+}
+
+center .header {
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 center {

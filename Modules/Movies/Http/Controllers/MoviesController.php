@@ -80,10 +80,10 @@ class MoviesController extends Controller
             ],200);
     }
 
-    protected function saveImages($movie,$image ,$image_url)
+    protected function saveImages($movie,$image_name ,$image_url)
     {
         $image = Movie::find($movie->id);
-        $image->image_name = $image->getClientOriginalName();
+        $image->image_name = $image_name->getClientOriginalName();
         $image->image_url = $image_url;
         $image->save();
     }
