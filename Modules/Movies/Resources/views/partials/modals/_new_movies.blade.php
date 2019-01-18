@@ -30,6 +30,10 @@
                             <input class="form-control" type="text" id="language" name="language" placeholder="e.g. English" />
                         </div>
                         <div class="form-group">
+                            <label>Movie Cover/Image</label>
+                            <input class="form-control" type="file" id="movie_banner" name="movie_banner" placeholder="e.g. English" />
+                        </div>
+                        <div class="form-group">
                             <label>Description</label>
                             <textarea name="" id="description" class="form-control" cols="30" rows="5"></textarea>
                         </div>

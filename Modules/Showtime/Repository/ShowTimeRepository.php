@@ -53,16 +53,4 @@ class ShowTimeRepository implements ShowTimeInterface
         return $this->model;
     }
 
-    // Set the associated model
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
-    }
-
-    // Eager load database relationships
-    public function with($relations)
-    {
-        return $this->model->with($relations);
-    }
 }

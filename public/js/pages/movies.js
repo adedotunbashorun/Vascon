@@ -15,28 +15,39 @@ var AppMovies = function() {
         var duration = $("#duration").val();
         var language = $("#language").val();
         var description = $("#description").val();
+        var extension = $('#movie_banner').val().split('.').pop().toLowerCase();
 
         if (title.length < 1) {
             console.log("title field is required");
         } else if (release_date.length < 1) {
             console.log("release_date is required");
+        } else if ($.inArray(extension, ['jpg', 'jpeg', 'png']) == -1) {
+            console.log("This extension is not supported");
+            $('#movie_banner').val("");
         } else {
+            var file_data = $("#movie_banner").prop("files")[0];
             $("#add_movies").attr("disabled", true);
             $("#add_movies").html("<i class='fa fa-refresh fa-spin'></i> Processing...");
+            var form_data = new FormData();
+            form_data.append('image', file_data);
+            form_data.append('_token', TOKEN);
+            form_data.append('title', title);
+            form_data.append('release_date', release_date);
+            form_data.append('genre', genre);
+            form_data.append('slug', slug);
+            form_data.append('user_id', user_id);
+            form_data.append('duration', duration);
+            form_data.append('language', language);
+            form_data.append('description', description);
+
             $.ajax({
                 url: ADD_URL,
+                data: form_data,
+                type: "POST",
+                contentType: false, // The content type used when sending data to the server.
+                cache: false, // To unable request pages to be cached
+                processData: false,
                 method: "POST",
-                data: {
-                    '_token': TOKEN,
-                    'title': title,
-                    'release_date': release_date,
-                    'genre': genre,
-                    'slug': slug,
-                    'user_id': user_id,
-                    'duration': duration,
-                    'language': language,
-                    'description': description
-                },
                 success: function(rst) {
                     if (rst.type == "true") {
                         $("#add_movies").attr("disabled", false);
