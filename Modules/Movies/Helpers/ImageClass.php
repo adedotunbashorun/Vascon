@@ -11,7 +11,7 @@ class ImageClass
         // $this->validate($image,[
         //     'image_name'=>'required|mimes:jpeg,bmp,jpg,png|between:1, 6000',
         // ]);
-
+        
         if(isset($image)) {
             $image_name = $image->getRealPath();
             Cloudder::upload($image_name, null);
